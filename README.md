@@ -3,7 +3,7 @@
 Abstract layout library.
 
 Based on:
-
-https://github.com/gelldur/GKoala
-
-Android Layouts
+- [GKoala Layouts](https://github.com/gelldur/GKoala)
+- [Android Layouts](https://developer.android.com/guide/topics/ui/declaring-layout.html)
+- Cocos2d-x Layouts
+- Qt Layouts
