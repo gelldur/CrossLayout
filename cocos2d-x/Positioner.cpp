@@ -234,4 +234,12 @@ void Positioner::toCenterVerticalOf(Node* pToCenterVertical, Node* pOf, const fl
 			Positioner::getCenterPoint(pOf).y + margin));
 }
 
-} /* namespace gui */
+void Positioner::toCenterOf(Node* pToCenter, Node* pOf)
+{
+	assert(pToCenter);
+	assert(pOf);
+	Positioner::toCenterHorizontalOf(pToCenter, pOf, 0.0f);
+	Positioner::toCenterVerticalOf(pToCenter, pOf, 0.0f);
+}
+
+} /* namespace CrossLayout */

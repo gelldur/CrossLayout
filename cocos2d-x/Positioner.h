@@ -46,6 +46,7 @@ void toAboveOf(cocos2d::Node* pToAbove, cocos2d::Node* pOf, const float margin =
 void toBelowOf(cocos2d::Node* pToBelow, cocos2d::Node* pOf, const float margin = 0);
 void toCenterHorizontalOf(cocos2d::Node* pToCenterHorizontal, cocos2d::Node* pOf, const float margin = 0);
 void toCenterVerticalOf(cocos2d::Node* pToCenterVertical, cocos2d::Node* pOf, const float margin = 0);
+void toCenterOf(cocos2d::Node* pToCenter, cocos2d::Node* pOf);
 
 }
 
