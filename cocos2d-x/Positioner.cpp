@@ -242,4 +242,48 @@ void Positioner::toCenterOf(Node* pToCenter, Node* pOf)
 	Positioner::toCenterVerticalOf(pToCenter, pOf, 0.0f);
 }
 
+void Positioner::toRightEdge(cocos2d::Node* toRight, cocos2d::Node* edgeNode, const float margin)
+{
+	assert(toRight);
+	assert(edgeNode);
+	assert (toRight->getParent() == edgeNode->getParent());
+
+	Point corner = Positioner::getRightBottomCorner(toRight);
+	Positioner::setCornerToPosition(toRight, corner
+									, Point(Positioner::getRightBottomCorner(edgeNode).x - margin, corner.y));
+}
+
+void Positioner::toBottomEdge(cocos2d::Node* toBottom, cocos2d::Node* edgeNode, const float margin)
+{
+	assert(toBottom);
+	assert(edgeNode);
+	assert (toBottom->getParent() == edgeNode->getParent());
+
+	Point corner = Positioner::getLeftBottomCorner(toBottom);
+	Positioner::setCornerToPosition(toBottom, corner
+									, Point(corner.x, Positioner::getLeftBottomCorner(edgeNode).y + margin));
+}
+
+void Positioner::toTopEdge(cocos2d::Node* toTop, cocos2d::Node* edgeNode, const float margin)
+{
+	assert(toTop);
+	assert(edgeNode);
+	assert (toTop->getParent() == edgeNode->getParent());
+
+	Point corner = Positioner::getLeftTopCorner(toTop);
+	Positioner::setCornerToPosition(toTop, corner
+									, Point(corner.x, Positioner::getLeftTopCorner(edgeNode).y - margin));
+}
+
+void Positioner::toLeftEdge(cocos2d::Node* toLeft, cocos2d::Node* edgeNode, const float margin)
+{
+	assert(toLeft);
+	assert(edgeNode);
+	assert (toLeft->getParent() == edgeNode->getParent());
+
+	Point corner = Positioner::getLeftBottomCorner(toLeft);
+	Positioner::setCornerToPosition(toLeft, corner
+									, Point(Positioner::getLeftBottomCorner(edgeNode).x + margin, corner.y));
+}
+
 } /* namespace CrossLayout */

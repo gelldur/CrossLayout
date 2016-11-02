@@ -48,6 +48,11 @@ void toCenterHorizontalOf(cocos2d::Node* pToCenterHorizontal, cocos2d::Node* pOf
 void toCenterVerticalOf(cocos2d::Node* pToCenterVertical, cocos2d::Node* pOf, const float margin = 0);
 void toCenterOf(cocos2d::Node* pToCenter, cocos2d::Node* pOf);
 
+void toRightEdge(cocos2d::Node* toRight, cocos2d::Node* edgeNode, const float margin = 0);
+void toBottomEdge(cocos2d::Node* toBottom, cocos2d::Node* edgeNode, const float margin = 0);
+void toTopEdge(cocos2d::Node* toTop, cocos2d::Node* edgeNode, const float margin = 0);
+void toLeftEdge(cocos2d::Node* toLeft, cocos2d::Node* edgeNode, const float margin = 0);
+
 }
 
 } /* namespace CrossLayout */
