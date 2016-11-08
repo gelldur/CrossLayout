@@ -6,6 +6,7 @@ SET(EXTRA_INCLUDE)
 IF(COCOS2D_X)
 	SET(EXTRA_SRC
 			cocos2d-x/crosslayout/CocosNodeWrapper.h
+			cocos2d-x/crosslayout/ComposerCocos.h
 			cocos2d-x/Positioner.cpp cocos2d-x/Positioner.h
 			)
 	SET(EXTRA_INCLUDE cocos2d-x/)
