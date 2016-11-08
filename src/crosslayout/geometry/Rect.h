@@ -7,7 +7,7 @@
 #include "Point.h"
 #include "Size.h"
 
-namespace Dexode
+namespace CrossLayout
 {
 
 template<class T>

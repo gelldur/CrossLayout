@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace Dexode
+namespace CrossLayout
 {
 
 template<class T>
@@ -22,13 +22,13 @@ public:
 };
 
 template<class T>
-bool operator<(const Dexode::Size<T>& left, const Dexode::Size<T>& right)
+bool operator<(const CrossLayout::Size<T>& left, const CrossLayout::Size<T>& right)
 {
 	return left.width < right.width || left.height < right.height;
 }
 
 template<class T>
-bool operator==(const Dexode::Size<T>& left, const Dexode::Size<T>& right)
+bool operator==(const CrossLayout::Size<T>& left, const CrossLayout::Size<T>& right)
 {
 	return left.width == right.width && left.height == right.height;
 }
