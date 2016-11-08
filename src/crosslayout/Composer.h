@@ -15,24 +15,24 @@ namespace CrossLayout
  *
  * Composer composer;
  *
- *	composer.center(bar).in(foo).center();
- *	composer.center(bar).inParent().center();
+ * composer.center(bar).in(foo).center();
+ * composer.center(bar).inParent().center();
  *
- *	composer.leftEdge(foo).moveTo().leftEdge(bar);
- *	composer.leftEdge(foo).moveTo().leftEdge(bar, 10);
+ * composer.leftEdge(foo).moveTo().leftEdge(bar);
+ * composer.leftEdge(foo).moveTo().leftEdge(bar, 10);
  *
- *	composer.topEdge(foo).moveTo().bottomEdge(bar);
+ * composer.topEdge(foo).moveTo().bottomEdge(bar);
  *
- *	composer.leftEdge(foo).moveTo().rightEdge(bar);
- *	composer.leftEdge(foo).moveTo().parentLeftEdge();
- *	composer.topEdge(foo).moveTo().parentBottomEdge();
+ * composer.leftEdge(foo).moveTo().rightEdge(bar);
+ * composer.leftEdge(foo).moveTo().parentLeftEdge();
+ * composer.topEdge(foo).moveTo().parentBottomEdge();
  *
- *	composer.center(foo).inParent().horizontally();
- *	composer.center(foo).in(bar).horizontally();
- *	composer.center(foo).in(bar).vertically(5);
+ * composer.center(foo).inParent().horizontally();
+ * composer.center(foo).in(bar).horizontally();
+ * composer.center(foo).in(bar).vertically(5);
  *
- *	composer.center(foo).in(bar).center();
- *	composer.center(foo).in(bar).horizontally();
+ * composer.center(foo).in(bar).center();
+ * composer.center(foo).in(bar).horizontally();
  *
  */
 template<class T>
