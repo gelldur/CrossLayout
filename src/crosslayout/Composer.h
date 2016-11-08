@@ -247,7 +247,8 @@ private:
 		{
 			auto fromPoint = Where::_whichNode.getPosition();
 			auto toPoint = decltype(fromPoint)
-					{Where::_whichNode.getParent()->getBoundingBox().size.width, fromPoint.y};//Don't change Y position
+					{Where::_whichNode.getParent()->getBoundingBox().size.width
+							, fromPoint.y};//Don't change Y position
 			toPoint.x -= margin;
 
 			Where::moveToPoint(toPoint);
@@ -286,8 +287,8 @@ private:
 		{
 			auto fromPoint = Where::_whichNode.getPosition();
 			auto toPoint = decltype(fromPoint)
-					{fromPoint.x
-							, Where::_whichNode.getParent().getBoundingBox().size.height}; //Don't change X position
+					{fromPoint.x //Don't change X position
+							, Where::_whichNode.getParent().getBoundingBox().size.height};
 			toPoint.y -= margin;
 
 			Where::moveToPoint(toPoint);
