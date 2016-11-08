@@ -38,7 +38,9 @@ namespace CrossLayout
 template<class T>
 class Composer
 {
-private:
+	using Rect = CrossLayout::Rect<float>;
+	using Point = CrossLayout::Point<float>;
+
 	class In;
 
 	class Where;
@@ -79,7 +81,7 @@ public:
 		return Composer::In(T::wrap(node));
 	}
 
-	static void moveBy(T& node, const Point<float>& moveBy)
+	static void moveBy(T& node, Point moveBy)
 	{
 		node.setPosition(moveBy + node.getPosition());
 	}
@@ -91,12 +93,12 @@ private:
 
 		Orientation in(typename T::wrap_t* node)
 		{
-			return Orientation(_whichNode, T::wrap(node));
+			return Orientation(_whichNode, T::wrap(node).getBoundingBox());
 		}
 
 		Orientation inParent()
 		{
-			return Orientation(_whichNode, _whichNode.getParent());
+			return Orientation(_whichNode, Rect{Point{0, 0}, _whichNode.getParent().getBoundingBox().size});
 		}
 
 	private:
@@ -115,7 +117,7 @@ private:
 		void horizontally(const float margin = 0)
 		{
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(0.5F, 0);
-			auto toPoint = _whereNode.getBoundingBox().getPoint(0.5F, 0);
+			auto toPoint = _whereBox.getPoint(0.5F, 0);
 			toPoint.x += margin;
 			toPoint.y = fromPoint.y;//Don't change Y position
 
@@ -125,7 +127,7 @@ private:
 		void vertically(const float margin = 0)
 		{
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(0, 0.5F);
-			auto toPoint = _whereNode.getBoundingBox().getPoint(0, 0.5F);
+			auto toPoint = _whereBox.getPoint(0, 0.5F);
 			toPoint.x = fromPoint.x;//Don't change X position
 			toPoint.y += margin;
 
@@ -135,18 +137,18 @@ private:
 		void center()
 		{
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(0.5F, 0.5F);
-			auto toPoint = _whereNode.getBoundingBox().getPoint(0.5F, 0.5F);
+			auto toPoint = _whereBox.getPoint(0.5F, 0.5F);
 
 			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
 	private:
+		Rect _whereBox;
 		T _whichNode;
-		T _whereNode;
 
-		constexpr Orientation(const T& whichNode, const T& whereNode)
-				: _whichNode(whichNode)
-				, _whereNode(whereNode)
+		constexpr Orientation(const T& whichNode, Rect whereBox)
+				: _whereBox(whereBox)
+				, _whichNode(whichNode)
 		{
 		}
 
@@ -162,10 +164,10 @@ private:
 		}
 
 	private:
-		const Point<float> _whichEdge;
+		const Point _whichEdge;
 		T _whichNode;
 
-		constexpr MoveHorizontal(const T& whichNode, const Point<float>& whichEdge)
+		constexpr MoveHorizontal(const T& whichNode, Point whichEdge)
 				: _whichEdge(whichEdge)
 				, _whichNode(whichNode)
 		{
@@ -182,10 +184,10 @@ private:
 		}
 
 	private:
-		const Point<float> _whichEdge;
+		const Point _whichEdge;
 		T _whichNode;
 
-		constexpr MoveVertical(const T& whichNode, const Point<float>& whichEdge)
+		constexpr MoveVertical(const T& whichNode, Point whichEdge)
 				: _whichEdge(whichEdge)
 				, _whichNode(whichNode)
 		{
@@ -195,20 +197,20 @@ private:
 	class Where
 	{
 	public:
-		constexpr Where(const T& whichNode, const Point<float>& whichEdge)
+		constexpr Where(const T& whichNode, Point whichEdge)
 				: _whichEdge(whichEdge)
 				, _whichNode(whichNode)
 		{
 		}
 
-		void moveToPoint(const Point<float>& toPoint)
+		void moveToPoint(Point toPoint)
 		{
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
 	public:
-		const Point<float> _whichEdge;
+		const Point _whichEdge;
 		T _whichNode;
 	};
 
@@ -255,7 +257,7 @@ private:
 		}
 
 	private:
-		constexpr WhereHorizontal(const T& whichNode, const Point<float>& whichEdge)
+		constexpr WhereHorizontal(const T& whichNode, Point whichEdge)
 				: Where(whichNode, whichEdge)
 		{
 		}
@@ -304,7 +306,7 @@ private:
 		}
 
 	private:
-		constexpr WhereVertical(const T& whichNode, const Point<float>& whichEdge)
+		constexpr WhereVertical(const T& whichNode, Point whichEdge)
 				: Where(whichNode, whichEdge)
 		{
 		}

@@ -83,6 +83,31 @@ TEST(TestComposer, center)
 	EXPECT_EQ(Point(50, 200), foo->getBoundingBox().getPoint(0.5F, 0.5F));
 }
 
+TEST(TestComposer, centerInParentHorizontalBug)
+{
+	using Point = CrossLayout::Point<float>;
+	using Rect = CrossLayout::Rect<float>;
+
+	auto fooInitPosition = Point(10, 5);
+	auto barInitPosition = Point(0, 2);
+
+	auto parentNode = std::make_shared<CrossLayout::TestNode>(Rect{{-100, -100}, {100, 400}});
+	auto fooNode = std::make_shared<CrossLayout::TestNode>(Rect{fooInitPosition, {4, 2}});
+	auto barNode = std::make_shared<CrossLayout::TestNode>(Rect{barInitPosition, {6, 5}});
+
+	parentNode->addChild(barNode).addChild(fooNode);
+
+	auto foo = fooNode.get();
+	auto bar = barNode.get();
+
+	EXPECT_EQ(fooInitPosition, foo->getPosition());
+	EXPECT_EQ(barInitPosition, bar->getPosition());
+
+	CrossLayout::Composer<CrossLayout::NodeWrapper<CrossLayout::TestNode>> composer;
+	composer.center(foo).inParent().horizontally();//Make foo center horizontal in parent
+	EXPECT_EQ(Point(50, 5), foo->getBoundingBox().getPoint(0.5F, 0));
+}
+
 TEST(TestComposer, left)
 {
 	using Point = CrossLayout::Point<float>;
