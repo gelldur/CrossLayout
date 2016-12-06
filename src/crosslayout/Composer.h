@@ -43,8 +43,6 @@ class Composer
 
 	class In;
 
-	class Where;
-
 	class Orientation;
 
 	class WhereVertical;
@@ -194,120 +192,112 @@ private:
 		}
 	};
 
-	class Where
-	{
-	public:
-		constexpr Where(const T& whichNode, Point whichEdge)
-				: _whichEdge(whichEdge)
-				, _whichNode(whichNode)
-		{
-		}
-
-		void moveToPoint(Point toPoint)
-		{
-			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
-			Composer::moveBy(_whichNode, toPoint - fromPoint);
-		}
-
-	public:
-		const Point _whichEdge;
-		T _whichNode;
-	};
-
-	struct WhereHorizontal : public Where
+	struct WhereHorizontal
 	{
 		friend class Composer::MoveHorizontal;
 
 		void leftEdge(typename T::wrap_t* node, const float margin = 0)
 		{
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = T::wrap(node).getBoundingBox().getPoint(0, 0);
-			toPoint.x += margin;
-			toPoint.y = Where::_whichNode.getPosition().y;//Don't change Y position
+			toPoint.x += _whichEdge.x == 1 ? -margin : margin;
+			toPoint.y = fromPoint.y;//Don't change Y position
 
-			Where::moveToPoint(toPoint);
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
 		void rightEdge(typename T::wrap_t* node, const float margin = 0)
 		{
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = T::wrap(node).getBoundingBox().getPoint(1, 0);
-			toPoint.x -= margin;
-			toPoint.y = Where::_whichNode.getPosition().y;//Don't change Y position
+			toPoint.x += _whichEdge.x == 1 ? -margin : margin;
+			toPoint.y = fromPoint.y;//Don't change Y position
 
-			Where::moveToPoint(toPoint);
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
 		void parentLeftEdge(const float margin = 0)
 		{
-			auto fromPoint = Where::_whichNode.getPosition();
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = decltype(fromPoint){0, fromPoint.y};//Don't change Y position
-			toPoint.x += margin;
+			toPoint.x += _whichEdge.x == 1 ? -margin : margin;
 
-			Where::moveToPoint(toPoint);
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
 		void parentRightEdge(const float margin = 0)
 		{
-			auto fromPoint = Where::_whichNode.getPosition();
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = decltype(fromPoint)
-					{Where::_whichNode.getParent()->getBoundingBox().size.width
+					{_whichNode.getParent().getBoundingBox().size.width
 							, fromPoint.y};//Don't change Y position
-			toPoint.x -= margin;
+			toPoint.x += _whichEdge.x == 1 ? -margin : margin;
 
-			Where::moveToPoint(toPoint);
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
 	private:
+		const Point _whichEdge;
+		T _whichNode;
+
 		constexpr WhereHorizontal(const T& whichNode, Point whichEdge)
-				: Where(whichNode, whichEdge)
+				: _whichEdge(whichEdge)
+				, _whichNode(whichNode)
 		{
 		}
 	};
 
-	struct WhereVertical : public Where
+	struct WhereVertical
 	{
 		friend class Composer::MoveVertical;
 
 		void topEdge(typename T::wrap_t* node, const float margin = 0)
 		{
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = T::wrap(node).getBoundingBox().getPoint(0, 1);
-			toPoint.x = Where::_whichNode.getPosition().x;//Don't change X position
-			toPoint.y -= margin;
+			toPoint.x = fromPoint.x;//Don't change X position
+			toPoint.y += _whichEdge.y == 1 ? -margin : margin;
 
-			Where::moveToPoint(toPoint);
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
 		void bottomEdge(typename T::wrap_t* node, const float margin = 0)
 		{
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = T::wrap(node).getBoundingBox().getPoint(0, 0);
-			toPoint.x = Where::_whichNode.getPosition().x;//Don't change X position
-			toPoint.y += margin;
+			toPoint.x = fromPoint.x;//Don't change X position
+			toPoint.y += _whichEdge.y == 1 ? -margin : margin;
 
-			Where::moveToPoint(toPoint);
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
 		void parentTopEdge(const float margin = 0)
 		{
-			auto fromPoint = Where::_whichNode.getPosition();
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = decltype(fromPoint)
 					{fromPoint.x //Don't change X position
-							, Where::_whichNode.getParent().getBoundingBox().size.height};
-			toPoint.y -= margin;
+							, _whichNode.getParent().getBoundingBox().size.height};
+			toPoint.y += _whichEdge.y == 1 ? -margin : margin;
 
-			Where::moveToPoint(toPoint);
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
 		void parentBottomEdge(const float margin = 0)
 		{
-			auto fromPoint = Where::_whichNode.getPosition();
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = decltype(fromPoint){fromPoint.x, 0}; //Don't change X position
-			toPoint.y += margin;
+			toPoint.y += _whichEdge.y == 1 ? -margin : margin;
 
-			Where::moveToPoint(toPoint);
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
 	private:
+		const Point _whichEdge;
+		T _whichNode;
+
 		constexpr WhereVertical(const T& whichNode, Point whichEdge)
-				: Where(whichNode, whichEdge)
+				: _whichEdge(whichEdge)
+				, _whichNode(whichNode)
 		{
 		}
 	};
