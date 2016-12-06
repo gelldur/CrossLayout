@@ -38,13 +38,16 @@ public:
 
 	void setPosition(const Point<float>& position)
 	{
-		_node->setPosition(position.x, position.y);
+		const auto& anchor = _node->isIgnoreAnchorPointForPosition() ? cocos2d::Vec2{}
+																	 : _node->getAnchorPointInPoints();
+		_node->setPosition(position.x + anchor.x, position.y + anchor.y);
 	}
 
 	const Point<float>& getPosition()
 	{
-		_box.point.x = _node->getPosition().x;
-		_box.point.y = _node->getPosition().y;
+		auto cocosBox = _node->getBoundingBox();
+		_box.point = {cocosBox.origin.x, cocosBox.origin.y};
+		_box.size = {cocosBox.size.width, cocosBox.size.height};
 		return _box.point;
 	}
 
