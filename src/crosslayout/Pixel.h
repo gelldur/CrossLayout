@@ -46,23 +46,23 @@ private:
 
 }
 
-// @formatter:off
 //Userdefined literals: http://en.cppreference.com/w/cpp/language/user_literal
 constexpr inline CrossLayout::Pixel operator "" _dp(const long double densityIndependentPixel)
 {
-	return CrossLayout::Pixel(static_cast<float>(densityIndependentPixel),&CrossLayout::Pixel::convertDpToPixel);
+	return CrossLayout::Pixel(static_cast<float>(densityIndependentPixel), &CrossLayout::Pixel::convertDpToPixel);
 }
+
 constexpr inline CrossLayout::Pixel operator "" _dp(const unsigned long long int densityIndependentPixel)
 {
-	return CrossLayout::Pixel(static_cast<int>(densityIndependentPixel),&CrossLayout::Pixel::convertDpToPixel);
+	return CrossLayout::Pixel(static_cast<int>(densityIndependentPixel), &CrossLayout::Pixel::convertDpToPixel);
 }
 
 constexpr inline CrossLayout::Pixel operator "" _swp(const long double screenWidthPercent)
 {
-	return CrossLayout::Pixel(static_cast<float>(screenWidthPercent),&CrossLayout::Pixel::convertSwpToPixel);
+	return CrossLayout::Pixel(static_cast<float>(screenWidthPercent), &CrossLayout::Pixel::convertSwpToPixel);
 }
+
 constexpr inline CrossLayout::Pixel operator "" _swp(const unsigned long long int screenWidthPercent)
 {
-	return CrossLayout::Pixel(static_cast<float>(screenWidthPercent),&CrossLayout::Pixel::convertSwpToPixel);
+	return CrossLayout::Pixel(static_cast<float>(screenWidthPercent), &CrossLayout::Pixel::convertSwpToPixel);
 }
-// @formatter:on
