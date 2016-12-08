@@ -23,6 +23,10 @@ SET(CrossLayout_SRC
 
 ADD_LIBRARY(CrossLayout ${CrossLayout_SRC} ${EXTRA_SRC})
 
+#Add -Werror
+TARGET_COMPILE_OPTIONS(CrossLayout PRIVATE
+		-Wall -pedantic
+		-Wno-unused-private-field -Wnon-virtual-dtor)
 
 SET(CrossLayout_SRC_TEST
 		test/gtest/gtest.cpp
