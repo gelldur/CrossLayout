@@ -38,8 +38,10 @@ public:
 
 	void setPosition(const Point<float>& position)
 	{
-		const auto& anchor = _node->isIgnoreAnchorPointForPosition() ? cocos2d::Vec2{}
-																	 : _node->getAnchorPointInPoints();
+		auto anchor = _node->isIgnoreAnchorPointForPosition() ? cocos2d::Vec2{}
+															  : _node->getAnchorPointInPoints();
+		anchor.x *= _node->getScaleX();
+		anchor.y *= _node->getScaleY();
 		_node->setPosition(position.x + anchor.x, position.y + anchor.y);
 	}
 
