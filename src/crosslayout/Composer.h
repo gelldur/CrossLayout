@@ -106,6 +106,20 @@ private:
 			return Orientation(_whichNode, Rect{Point{0, 0}, _whichNode.getParent().getBoundingBox().size});
 		}
 
+		Orientation between(NodeWrapper <T> nodeA, NodeWrapper <T> nodeB)
+		{
+			auto nodeABox = nodeA.getBoundingBox();
+			auto nodeBBox = nodeB.getBoundingBox();
+
+			auto x = std::min(nodeABox.right(), nodeBBox.right());
+			auto y = std::min(nodeABox.top(), nodeBBox.top());
+			auto x1 = std::max(nodeABox.x(), nodeBBox.x());
+			auto y1 = std::max(nodeABox.y(), nodeBBox.y());
+			//Block negative size
+			return Orientation(_whichNode, {x, y
+					, std::max(x1 - x, static_cast<decltype(x)>(0)), std::max(y1 - y, static_cast<decltype(y)>(0))});
+		}
+
 	private:
 		NodeWrapper <T> _whichNode;
 
