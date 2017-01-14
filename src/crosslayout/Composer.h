@@ -54,32 +54,33 @@ class Composer
 	class MoveVertical;
 
 public:
-	constexpr MoveHorizontal leftEdge(typename T::wrap_t* const node) const
+	constexpr MoveHorizontal leftEdge(NodeWrapper <T> node) const
 	{
-		return Composer::MoveHorizontal(T::wrap(node), {0, 0});
+		return Composer::MoveHorizontal(node, {0, 0});
 	}
 
-	constexpr MoveHorizontal rightEdge(typename T::wrap_t* const node) const
+	constexpr MoveHorizontal rightEdge(NodeWrapper <T> node) const
 	{
-		return Composer::MoveHorizontal(T::wrap(node), {1, 0});
+		return Composer::MoveHorizontal(node, {1, 0});
 	}
 
-	constexpr MoveVertical topEdge(typename T::wrap_t* const node) const
+	constexpr MoveVertical topEdge(NodeWrapper <T> node) const
 	{
-		return Composer::MoveVertical(T::wrap(node), {0, 1});
+		return Composer::MoveVertical(node, {0, 1});
 	}
 
-	constexpr MoveVertical bottomEdge(typename T::wrap_t* const node) const
+	constexpr MoveVertical bottomEdge(NodeWrapper <T> node) const
 	{
-		return Composer::MoveVertical(T::wrap(node), {0, 0});
+		return Composer::MoveVertical(node, {0, 0});
 	}
 
-	constexpr In center(typename T::wrap_t* const node) const
+	constexpr In center(NodeWrapper <T> node) const
 	{
-		return Composer::In(T::wrap(node));
+		return Composer::In(node);
 	}
 
-	static void moveBy(T& node, Point moveBy)
+
+	static void moveBy(NodeWrapper <T>& node, Point moveBy)
 	{
 		node.setPosition(moveBy + node.getPosition());
 	}
@@ -89,9 +90,9 @@ private:
 	{
 		friend class Composer;
 
-		Orientation in(typename T::wrap_t* node)
+		Orientation in(NodeWrapper <T> node)
 		{
-			return Orientation(_whichNode, T::wrap(node).getBoundingBox());
+			return Orientation(_whichNode, node.getBoundingBox());
 		}
 
 		Orientation inParent()
@@ -100,9 +101,9 @@ private:
 		}
 
 	private:
-		T _whichNode;
+		NodeWrapper <T> _whichNode;
 
-		explicit constexpr In(const T& whichNode)
+		explicit constexpr In(NodeWrapper <T> whichNode)
 				: _whichNode(whichNode)
 		{
 		}
@@ -130,6 +131,15 @@ private:
 			toPoint.y += margin;
 
 			Composer::moveBy(_whichNode, toPoint - fromPoint);
+
+	private:
+		Rect _whereBox;
+		NodeWrapper <T> _whichNode;
+
+		constexpr Orientation(NodeWrapper <T> whichNode, Rect whereBox)
+				: _whereBox(whereBox)
+				, _whichNode(whichNode)
+		{
 		}
 
 		void center()
@@ -139,17 +149,6 @@ private:
 
 			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
-
-	private:
-		Rect _whereBox;
-		T _whichNode;
-
-		constexpr Orientation(const T& whichNode, Rect whereBox)
-				: _whereBox(whereBox)
-				, _whichNode(whichNode)
-		{
-		}
-
 	};
 
 	struct MoveHorizontal
@@ -163,9 +162,9 @@ private:
 
 	private:
 		const Point _whichEdge;
-		T _whichNode;
+		NodeWrapper <T> _whichNode;
 
-		constexpr MoveHorizontal(const T& whichNode, Point whichEdge)
+		constexpr MoveHorizontal(NodeWrapper <T> whichNode, Point whichEdge)
 				: _whichEdge(whichEdge)
 				, _whichNode(whichNode)
 		{
@@ -183,9 +182,9 @@ private:
 
 	private:
 		const Point _whichEdge;
-		T _whichNode;
+		NodeWrapper <T> _whichNode;
 
-		constexpr MoveVertical(const T& whichNode, Point whichEdge)
+		constexpr MoveVertical(NodeWrapper <T> whichNode, Point whichEdge)
 				: _whichEdge(whichEdge)
 				, _whichNode(whichNode)
 		{
@@ -196,20 +195,20 @@ private:
 	{
 		friend class Composer::MoveHorizontal;
 
-		void leftEdge(typename T::wrap_t* node, const float margin = 0)
+		void leftEdge(NodeWrapper <T> node, const float margin = 0)
 		{
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
-			auto toPoint = T::wrap(node).getBoundingBox().getPoint(0, 0);
+			auto toPoint = node.getBoundingBox().getPoint(0, 0);
 			toPoint.x += _whichEdge.x == 1 ? -margin : margin;
 			toPoint.y = fromPoint.y;//Don't change Y position
 
 			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
-		void rightEdge(typename T::wrap_t* node, const float margin = 0)
+		void rightEdge(NodeWrapper <T> node, const float margin = 0)
 		{
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
-			auto toPoint = T::wrap(node).getBoundingBox().getPoint(1, 0);
+			auto toPoint = node.getBoundingBox().getPoint(1, 0);
 			toPoint.x += _whichEdge.x == 1 ? -margin : margin;
 			toPoint.y = fromPoint.y;//Don't change Y position
 
@@ -238,9 +237,9 @@ private:
 
 	private:
 		const Point _whichEdge;
-		T _whichNode;
+		NodeWrapper <T> _whichNode;
 
-		constexpr WhereHorizontal(const T& whichNode, Point whichEdge)
+		constexpr WhereHorizontal(NodeWrapper <T> whichNode, Point whichEdge)
 				: _whichEdge(whichEdge)
 				, _whichNode(whichNode)
 		{
@@ -251,20 +250,20 @@ private:
 	{
 		friend class Composer::MoveVertical;
 
-		void topEdge(typename T::wrap_t* node, const float margin = 0)
+		void topEdge(NodeWrapper <T> node, const float margin = 0)
 		{
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
-			auto toPoint = T::wrap(node).getBoundingBox().getPoint(0, 1);
+			auto toPoint = node.getBoundingBox().getPoint(0, 1);
 			toPoint.x = fromPoint.x;//Don't change X position
 			toPoint.y += _whichEdge.y == 1 ? -margin : margin;
 
 			Composer::moveBy(_whichNode, toPoint - fromPoint);
 		}
 
-		void bottomEdge(typename T::wrap_t* node, const float margin = 0)
+		void bottomEdge(NodeWrapper <T> node, const float margin = 0)
 		{
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
-			auto toPoint = T::wrap(node).getBoundingBox().getPoint(0, 0);
+			auto toPoint = node.getBoundingBox().getPoint(0, 0);
 			toPoint.x = fromPoint.x;//Don't change X position
 			toPoint.y += _whichEdge.y == 1 ? -margin : margin;
 
@@ -293,9 +292,9 @@ private:
 
 	private:
 		const Point _whichEdge;
-		T _whichNode;
+		NodeWrapper <T> _whichNode;
 
-		constexpr WhereVertical(const T& whichNode, Point whichEdge)
+		constexpr WhereVertical(NodeWrapper <T> whichNode, Point whichEdge)
 				: _whichEdge(whichEdge)
 				, _whichNode(whichNode)
 		{

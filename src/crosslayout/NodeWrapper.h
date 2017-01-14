@@ -10,7 +10,7 @@ namespace CrossLayout
 {
 
 /**
- * Explicity implement NodeWrapprt specialization if you need to.
+ * Explicity implement NodeWrapper specialization if you need to.
  * Checkout cocos2d-x/crosslayout/CocosNodeWrapper.h
  */
 template<class T>
@@ -29,33 +29,53 @@ public:
 	{
 	}
 
+	constexpr NodeWrapper(const NodeWrapper& node)
+			: _node(node._node)
+	{
+	}
+
+	NodeWrapper& operator=(const NodeWrapper& node)
+	{
+		_node = node._node;
+	}
+
 	const Rect<float>& getBoundingBox()
 	{
+		assert(_node);
 		return _node->getBoundingBox();
 	}
 
 	void setPosition(const Point<float>& position)
 	{
+		assert(_node);
 		_node->setPosition(position);
 	}
 
 	const Point<float>& getPosition()
 	{
+		assert(_node);
 		return _node->getPosition();
 	}
 
 	NodeWrapper getParent()
 	{
+		assert(_node);
 		return {_node->getParent()};
 	}
 
-	bool hasParent(wrap_t* node)
+	NodeWrapper getChild(const std::string& tag)
 	{
-		return getParent()._node != nullptr;
+		assert(_node);
+		return {_node->getChild(tag)};
+	}
+
+	bool isValid() const
+	{
+		return _node != nullptr;
 	}
 
 private:
-	wrap_t* const _node = nullptr;
+	wrap_t* _node = nullptr;
 };
 
 }
