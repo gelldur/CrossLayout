@@ -9,5 +9,5 @@
 
 namespace CrossLayout
 {
-using ComposerCocos = CrossLayout::Composer<CrossLayout::NodeWrapper<cocos2d::Node>>;
+using ComposerCocos = CrossLayout::Composer<cocos2d::Node>;
 }
