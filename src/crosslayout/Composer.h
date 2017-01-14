@@ -15,8 +15,8 @@ namespace CrossLayout
  *
  * Composer composer;
  *
- * composer.center(bar).in(foo).center();
- * composer.center(bar).inParent().center();
+ * composer.center(bar).in(foo);
+ * composer.center(bar).inParent();
  *
  * composer.leftEdge(foo).moveTo().leftEdge(bar);
  * composer.leftEdge(foo).moveTo().leftEdge(bar, 10);
@@ -31,7 +31,7 @@ namespace CrossLayout
  * composer.center(foo).in(bar).horizontally();
  * composer.center(foo).in(bar).vertically(5);
  *
- * composer.center(foo).in(bar).center();
+ * composer.center(foo).in(bar);
  * composer.center(foo).in(bar).horizontally();
  *
  */
@@ -113,6 +113,14 @@ private:
 	{
 		friend class Composer::In;
 
+		~Orientation()
+		{
+			if (_whichNode.isValid())
+			{
+				center();
+			}
+		}
+
 		void horizontally(const float margin = 0)
 		{
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(0.5F, 0);
@@ -121,6 +129,7 @@ private:
 			toPoint.y = fromPoint.y;//Don't change Y position
 
 			Composer::moveBy(_whichNode, toPoint - fromPoint);
+			_whichNode = {nullptr};//Make invalid
 		}
 
 		void vertically(const float margin = 0)
@@ -131,6 +140,8 @@ private:
 			toPoint.y += margin;
 
 			Composer::moveBy(_whichNode, toPoint - fromPoint);
+			_whichNode = {nullptr};//Make invalid
+		}
 
 	private:
 		Rect _whereBox;
