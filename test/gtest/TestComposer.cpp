@@ -5,17 +5,11 @@
 #include <gtest/gtest.h>
 
 #include <memory>
-#include <ostream>
 
 #include <crosslayout/Composer.h>
+#include <crosslayout/geometry/GeometryToString.h>
 
 #include "TestNode.h"
-
-template<class T>
-std::ostream& operator<<(std::ostream& stream, const CrossLayout::Point<T>& point)
-{
-	return stream << "Point (x=" << point.x << ", y=" << point.y << ")";
-}
 
 TEST(TestComposer, doNothing)
 {
@@ -37,14 +31,8 @@ TEST(TestComposer, doNothing)
 	EXPECT_EQ(fooInitPosition, foo->getPosition());
 	EXPECT_EQ(barInitPosition, bar->getPosition());
 
-	CrossLayout::Composer<CrossLayout::NodeWrapper<CrossLayout::TestNode>> composer;
+	CrossLayout::Composer<CrossLayout::TestNode> composer;
 	composer.center(foo);//Do nothing
-	EXPECT_EQ(fooInitPosition, foo->getPosition());
-	composer.center(foo).inParent();//Do nothing
-	EXPECT_EQ(fooInitPosition, foo->getPosition());
-	composer.center(foo).in(bar);//Do nothing
-	EXPECT_EQ(fooInitPosition, foo->getPosition());
-	composer.center(foo).in(foo->getParent());//Do nothing
 	EXPECT_EQ(fooInitPosition, foo->getPosition());
 
 	composer.leftEdge(foo);//Do nothing
@@ -78,8 +66,8 @@ TEST(TestComposer, center)
 	EXPECT_EQ(fooInitPosition, foo->getPosition());
 	EXPECT_EQ(barInitPosition, bar->getPosition());
 
-	CrossLayout::Composer<CrossLayout::NodeWrapper<CrossLayout::TestNode>> composer;
-	composer.center(foo).inParent().center();//Move foo to parent center
+	CrossLayout::Composer<CrossLayout::TestNode> composer;
+	composer.center(foo).inParent();//Move foo to parent center
 	EXPECT_EQ(Point(50, 200), foo->getBoundingBox().getPoint(0.5F, 0.5F));
 }
 
@@ -103,7 +91,7 @@ TEST(TestComposer, centerInParentHorizontalBug)
 	EXPECT_EQ(fooInitPosition, foo->getPosition());
 	EXPECT_EQ(barInitPosition, bar->getPosition());
 
-	CrossLayout::Composer<CrossLayout::NodeWrapper<CrossLayout::TestNode>> composer;
+	CrossLayout::Composer<CrossLayout::TestNode> composer;
 	composer.center(foo).inParent().horizontally();//Make foo center horizontal in parent
 	EXPECT_EQ(Point(50, 5), foo->getBoundingBox().getPoint(0.5F, 0));
 }
@@ -128,7 +116,7 @@ TEST(TestComposer, left)
 	EXPECT_EQ(fooInitPosition, foo->getPosition());
 	EXPECT_EQ(barInitPosition, bar->getPosition());
 
-	CrossLayout::Composer<CrossLayout::NodeWrapper<CrossLayout::TestNode>> composer;
+	CrossLayout::Composer<CrossLayout::TestNode> composer;
 	composer.leftEdge(foo).moveTo().parentLeftEdge();//Move foo to parent left edge
 	EXPECT_EQ(Point(0, fooInitPosition.y), foo->getBoundingBox().point);
 
