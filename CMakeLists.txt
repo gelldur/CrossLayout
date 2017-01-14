@@ -24,21 +24,24 @@ SET(CrossLayout_SRC
 
 ADD_LIBRARY(CrossLayout ${CrossLayout_SRC} ${EXTRA_SRC})
 
+IF(COCOS2D_X)
+	TARGET_INCLUDE_DIRECTORIES(CrossLayout PUBLIC
+			${COCOS2D_ROOT}/cocos
+			${COCOS2D_ROOT}/cocos/audio/include/
+			${COCOS2D_ROOT}/cocos/platform
+			/usr/include/GLFW
+			/usr/local/include/GLFW
+			)
+	TARGET_LINK_LIBRARIES(CrossLayout cocos2d)
+ENDIF()
+
 #Add -Werror
 TARGET_COMPILE_OPTIONS(CrossLayout PRIVATE
 		-Wall -pedantic
 		-Wno-unused-private-field -Wnon-virtual-dtor)
 
-SET(CrossLayout_SRC_TEST
-		test/gtest/gtest.cpp
-		test/gtest/TestComposer.cpp
-		test/gtest/TestNode.cpp test/gtest/TestNode.h
-		)
-
 IF(TARGET gtest)
-	ADD_EXECUTABLE(CrossLayout-Test ${CrossLayout_SRC_TEST})
-	TARGET_LINK_LIBRARIES(CrossLayout-Test CrossLayout)
-	TARGET_LINK_LIBRARIES(CrossLayout-Test gtest)
+	ADD_SUBDIRECTORY(test/)
 ENDIF()
 
 TARGET_INCLUDE_DIRECTORIES(CrossLayout
