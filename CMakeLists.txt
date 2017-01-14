@@ -14,6 +14,7 @@ ENDIF()
 
 SET(CrossLayout_SRC
 		src/crosslayout/Composer.cpp src/crosslayout/Composer.h
+		src/crosslayout/geometry/GeometryToString.h
 		src/crosslayout/geometry/Point.cpp src/crosslayout/geometry/Point.h
 		src/crosslayout/geometry/Rect.cpp src/crosslayout/geometry/Rect.h
 		src/crosslayout/geometry/Size.cpp src/crosslayout/geometry/Size.h
