@@ -78,6 +78,18 @@ public:
 	{
 		return point + Point<float>{width() * xAnchor, height() * yAnchor};
 	}
+
+	/**
+	 * Compute the min rect which can contain this and rect, assign it to this.
+	 */
+	Rect merge(const Rect& other) const
+	{
+		const float minX = std::min(point.x, other.point.x);
+		const float minY = std::min(point.y, other.point.y);
+		const float maxX = std::max(right(), other.right());
+		const float maxY = std::max(top(), other.top());
+		return {minX, minY, maxX - minX, maxY - minY};
+	}
 };
 
 }
