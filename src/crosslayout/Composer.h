@@ -53,6 +53,8 @@ class Composer
 
 	class MoveVertical;
 
+	class Move;
+
 public:
 	constexpr MoveHorizontal leftEdge(NodeWrapper <T> node) const
 	{
@@ -79,6 +81,10 @@ public:
 		return Composer::In(node);
 	}
 
+	constexpr Move move(NodeWrapper <T> node) const
+	{
+		return Composer::Move(this, node);
+	}
 
 	static void moveBy(NodeWrapper <T>& node, Point moveBy)
 	{
@@ -307,6 +313,41 @@ private:
 
 		constexpr WhereVertical(NodeWrapper <T> whichNode, Point whichEdge)
 				: _whichEdge(whichEdge)
+				, _whichNode(whichNode)
+		{
+		}
+	};
+
+	struct Move
+	{
+		friend class Composer;
+
+		constexpr void below(NodeWrapper <T> node, const float margin = 0)
+		{
+			_composer->topEdge(_whichNode).moveTo().bottomEdge(node, margin);
+		}
+
+		constexpr void above(NodeWrapper <T> node, const float margin = 0)
+		{
+			_composer->bottomEdge(_whichNode).moveTo().topEdge(node, margin);
+		}
+
+		constexpr void toLeftOf(NodeWrapper <T> node, const float margin = 0)
+		{
+			_composer->rightEdge(_whichNode).moveTo().leftEdge(node, margin);
+		}
+
+		constexpr void toRightOf(NodeWrapper <T> node, const float margin = 0)
+		{
+			_composer->leftEdge(_whichNode).moveTo().rightEdge(node, margin);
+		}
+
+	private:
+		const Composer<T>* const _composer;
+		NodeWrapper <T> _whichNode;
+
+		constexpr Move(const Composer<T>* composer, NodeWrapper <T> whichNode)
+				: _composer(composer)
 				, _whichNode(whichNode)
 		{
 		}
