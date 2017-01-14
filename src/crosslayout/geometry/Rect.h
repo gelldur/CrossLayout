@@ -90,6 +90,17 @@ public:
 		const float maxY = std::max(top(), other.top());
 		return {minX, minY, maxX - minX, maxY - minY};
 	}
+
+	bool operator==(const Rect<T>& rhs) const
+	{
+		return point == rhs.point &&
+			   size == rhs.size;
+	}
+
+	bool operator!=(const Rect<T>& rhs) const
+	{
+		return !(rhs == *this);
+	}
 };
 
 }
