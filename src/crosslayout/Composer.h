@@ -103,7 +103,7 @@ private:
 
 		Orientation inParent()
 		{
-			return Orientation(_whichNode, Rect{Point{0, 0}, _whichNode.getParent().getBoundingBox().size});
+			return Orientation(_whichNode, Rect{Point{0, 0}, _whichNode.getParent().getSize()});
 		}
 
 		Orientation between(NodeWrapper <T> nodeA, NodeWrapper <T> nodeB)
@@ -259,7 +259,7 @@ private:
 		{
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = decltype(fromPoint)
-					{_whichNode.getParent().getBoundingBox().size.width
+					{_whichNode.getParent().getSize().width
 							, fromPoint.y};//Don't change Y position
 			toPoint.x += _whichEdge.x == 1 ? -margin : margin;
 
@@ -306,7 +306,7 @@ private:
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = decltype(fromPoint)
 					{fromPoint.x //Don't change X position
-							, _whichNode.getParent().getBoundingBox().size.height};
+							, _whichNode.getParent().getSize().height};
 			toPoint.y += _whichEdge.y == 1 ? -margin : margin;
 
 			Composer::moveBy(_whichNode, toPoint - fromPoint);
