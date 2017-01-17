@@ -48,6 +48,13 @@ public:
 		return _box;
 	}
 
+	const Size<float>& getSize()
+	{
+		assert(_node);
+		_box.size = {_node->getContentSize().width, _node->getContentSize().height};
+		return _box.size;
+	}
+
 	void setPosition(const Point<float>& position)
 	{
 		assert(_node);

@@ -22,6 +22,11 @@ public:
 		return _box;
 	}
 
+	const Size<float>& getSize()
+	{
+		return _box.size;
+	}
+
 	void setPosition(const Point<float>& position);
 
 	const Point<float>& getPosition() const

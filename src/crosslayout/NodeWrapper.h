@@ -45,6 +45,12 @@ public:
 		return _node->getBoundingBox();
 	}
 
+	const Size<float>& getSize()
+	{
+		assert(_node);
+		return _node->getSize();
+	}
+
 	void setPosition(const Point<float>& position)
 	{
 		assert(_node);
