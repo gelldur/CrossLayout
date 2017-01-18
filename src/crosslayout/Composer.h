@@ -336,22 +336,23 @@ private:
 	{
 		friend class Composer;
 
-		constexpr void below(NodeWrapper <T> node, const float margin = 0)
+		void below(NodeWrapper <T> node, const float margin = 0)
 		{
 			_composer->topEdge(_whichNode).moveTo().bottomEdge(node, margin);
 		}
 
-		constexpr void above(NodeWrapper <T> node, const float margin = 0)
+		void above(NodeWrapper <T> node, const float margin = 0)
 		{
 			_composer->bottomEdge(_whichNode).moveTo().topEdge(node, margin);
 		}
 
-		constexpr void toLeftOf(NodeWrapper <T> node, const float margin = 0)
+		void toLeftOf(NodeWrapper <T> node, const float margin = 0)
 		{
 			_composer->rightEdge(_whichNode).moveTo().leftEdge(node, margin);
 		}
 
-		constexpr void toRightOf(NodeWrapper <T> node, const float margin = 0)
+        //http://stackoverflow.com/questions/29261276/constexpr-void-function-rejected
+		void toRightOf(NodeWrapper <T> node, const float margin = 0)
 		{
 			_composer->leftEdge(_whichNode).moveTo().rightEdge(node, margin);
 		}
