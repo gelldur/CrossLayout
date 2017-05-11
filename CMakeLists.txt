@@ -1,4 +1,5 @@
 OPTION(COCOS2D_X "Build for cocos2d-x" OFF)
+OPTION(COCOS2DOW "Build for cocos2DOW (cocos2d-x v2.x fork)" OFF)
 
 ADD_SUBDIRECTORY(wrapper)
 

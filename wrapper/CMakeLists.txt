@@ -6,6 +6,13 @@ IF(COCOS2D_X)
 			)
 	TARGET_INCLUDE_DIRECTORIES(wrapper PUBLIC cocos2d-x-v3/)
 	TARGET_LINK_LIBRARIES(wrapper PRIVATE cocos2d)
+ELSEIF(COCOS2DOW)
+	ADD_LIBRARY(wrapper STATIC
+			cocos2d-x-v2/crosslayout/CocosNodeWrapper.h
+			cocos2d-x-v2/crosslayout/ComposerCocos.h
+			)
+	TARGET_INCLUDE_DIRECTORIES(wrapper PUBLIC cocos2d-x-v2/)
+	TARGET_LINK_LIBRARIES(wrapper PRIVATE Cocos2Dx)
 ELSE()
 	ADD_LIBRARY(wrapper INTERFACE)
 ENDIF()
