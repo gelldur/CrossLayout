@@ -41,19 +41,19 @@ class Composer
 	using Rect = CrossLayout::Rect<float>;
 	using Point = CrossLayout::Point<float>;
 
-	class In;
+	struct In;
 
-	class Orientation;
+	struct Orientation;
 
-	class WhereVertical;
+	struct WhereVertical;
 
-	class WhereHorizontal;
+	struct WhereHorizontal;
 
-	class MoveHorizontal;
+	struct MoveHorizontal;
 
-	class MoveVertical;
+	struct MoveVertical;
 
-	class Move;
+	struct Move;
 
 public:
 	constexpr MoveHorizontal leftEdge(NodeWrapper <T> node) const
@@ -131,7 +131,7 @@ private:
 
 	struct Orientation
 	{
-		friend class Composer::In;
+		friend struct Composer::In;
 
 		~Orientation()
 		{
@@ -224,7 +224,7 @@ private:
 
 	struct WhereHorizontal
 	{
-		friend class Composer::MoveHorizontal;
+		friend struct Composer::MoveHorizontal;
 
 		void leftEdge(NodeWrapper <T> node, const float margin = 0)
 		{
@@ -279,7 +279,7 @@ private:
 
 	struct WhereVertical
 	{
-		friend class Composer::MoveVertical;
+		friend struct Composer::MoveVertical;
 
 		void topEdge(NodeWrapper <T> node, const float margin = 0)
 		{
