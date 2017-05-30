@@ -1,9 +1,10 @@
-OPTION(COCOS2D_X "Build for cocos2d-x" OFF)
-OPTION(COCOS2DOW "Build for cocos2DOW (cocos2d-x v2.x fork)" OFF)
+OPTION(COCOS2D_X_V2 "Build for cocos2d-x v2.x" OFF)
+OPTION(COCOS2D_X_V3 "Build for cocos2d-x v3.x" OFF)
 
-ADD_SUBDIRECTORY(wrapper)
+INCLUDE(wrapper/CMakeLists.txt)
 
 SET(CrossLayout_SRC
+		${WRAPPER_SRC}
 		src/crosslayout/Composer.cpp src/crosslayout/Composer.h
 		src/crosslayout/geometry/GeometryToString.h
 		src/crosslayout/geometry/Point.cpp src/crosslayout/geometry/Point.h
@@ -15,8 +16,6 @@ SET(CrossLayout_SRC
 
 ADD_LIBRARY(CrossLayout STATIC ${CrossLayout_SRC})
 
-TARGET_LINK_LIBRARIES(CrossLayout PUBLIC wrapper)
-
 #Add -Werror
 TARGET_COMPILE_OPTIONS(CrossLayout PRIVATE
 		-Wall -pedantic
@@ -26,4 +25,7 @@ IF(TARGET gtest)
 	ADD_SUBDIRECTORY(test/)
 ENDIF()
 
-TARGET_INCLUDE_DIRECTORIES(CrossLayout PUBLIC src/)
+TARGET_INCLUDE_DIRECTORIES(CrossLayout PUBLIC
+		src/
+		${WRAPPER_INCLUDE}
+		)
