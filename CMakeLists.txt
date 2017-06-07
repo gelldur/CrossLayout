@@ -17,10 +17,11 @@ SET(CrossLayout_SRC
 
 ADD_LIBRARY(CrossLayout STATIC ${CrossLayout_SRC})
 
-#Add -Werror
 TARGET_COMPILE_OPTIONS(CrossLayout PRIVATE
 		-Wall -pedantic
-		-Wno-unused-private-field -Wnon-virtual-dtor)
+		-Wno-unused-private-field -Wnon-virtual-dtor
+		-Werror
+		)
 
 IF(TARGET gtest)
 	ADD_SUBDIRECTORY(test/)
