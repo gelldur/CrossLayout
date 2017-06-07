@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include <functional>
-
 #include <base_nodes/CCNode.h>
 
 #include <crosslayout/NodeWrapper.h>
+
+#include "WrapGeometry.h"
 
 namespace CrossLayout
 {
@@ -17,6 +17,9 @@ template<>
 class NodeWrapper<cocos2d::CCNode>
 {
 public:
+	using Rect = CrossLayout::Rect<float>;
+	using Size = CrossLayout::Size<float>;
+	using Point = CrossLayout::Point<float>;
 	using wrap_t = cocos2d::CCNode;
 
 	constexpr static NodeWrapper<cocos2d::CCNode> wrap(wrap_t* const node)
@@ -24,7 +27,7 @@ public:
 		return {node};
 	}
 
-	constexpr NodeWrapper(wrap_t* node)
+	constexpr NodeWrapper(wrap_t* node = nullptr)
 			: _node(node)
 	{
 	}
@@ -40,24 +43,31 @@ public:
 		return *this;
 	}
 
-	const Rect<float>& getBoundingBox()
+	const Rect getBoundingBox()
 	{
 		assert(_node);
-		auto cocosBox = _node->boundingBox();
-		_box.point = {cocosBox.origin.x, cocosBox.origin.y};
-		_box.size = {cocosBox.size.width, cocosBox.size.height};
-
-		return _box;
+		return {_node->boundingBox()};
 	}
 
-	const Size<float>& getSize()
+	const Size getParentSize()
 	{
 		assert(_node);
-		_box.size = {_node->getContentSize().width, _node->getContentSize().height};
-		return _box.size;
+		return {_node->getParent()->getContentSize()};
 	}
 
-	void setPosition(const Point<float>& position)
+	const Size getSize()
+	{
+		assert(_node);
+		return {_node->getContentSize()};//TODO is it a bug? Should be box size?
+	}
+
+	void setSize(const Size& size)
+	{
+		assert(_node);
+		_node->setContentSize({size.width, size.height});
+	}
+
+	void setPosition(const Point& position)
 	{
 		assert(_node);
 		auto anchor = cocos2d::CCPoint{};
@@ -70,25 +80,9 @@ public:
 		_node->setPosition(position.x + anchor.x, position.y + anchor.y);
 	}
 
-	const Point<float>& getPosition()
+	const Point getPosition()
 	{
-		assert(_node);
-		auto cocosBox = _node->boundingBox();
-		_box.point = {cocosBox.origin.x, cocosBox.origin.y};
-		_box.size = {cocosBox.size.width, cocosBox.size.height};
-		return _box.point;
-	}
-
-	NodeWrapper getParent()
-	{
-		assert(_node);
-		return {_node->getParent()};
-	}
-
-	NodeWrapper getChild(const std::string& tag)
-	{
-		assert(_node);
-		return {_node->getChildByTag(std::hash<std::string>{}(tag))};
+		return getBoundingBox().point;
 	}
 
 	bool isValid() const
@@ -97,7 +91,6 @@ public:
 	}
 
 private:
-	Rect<float> _box;
 	wrap_t* _node = nullptr;
 };
 

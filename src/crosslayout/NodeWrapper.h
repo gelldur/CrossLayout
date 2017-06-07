@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <cassert>
 #include <crosslayout/geometry/Rect.h>
 
 namespace CrossLayout
@@ -11,20 +12,20 @@ namespace CrossLayout
 
 /**
  * Explicity implement NodeWrapper specialization if you need to.
- * Checkout cocos2d-x/crosslayout/CocosNodeWrapper.h
+ * Checkout wrapper/cocos2d-x-v2/crosslayout/CocosNodeWrapper.h
+ * or
+ * crosslayout/NodeWrapperPlain.h
  */
 template<class T>
 class NodeWrapper
 {
 public:
+	using Rect = CrossLayout::Rect<float>;
+	using Size = CrossLayout::Size<float>;
+	using Point = CrossLayout::Point<float>;
 	using wrap_t = T;
 
-	constexpr static NodeWrapper wrap(wrap_t* const node)
-	{
-		return {node};
-	}
-
-	constexpr NodeWrapper(wrap_t* node)
+	constexpr NodeWrapper(wrap_t* node = nullptr)
 			: _node(node)
 	{
 	}
@@ -39,40 +40,40 @@ public:
 		_node = node._node;
 	}
 
-	const Rect<float>& getBoundingBox()
+	const Rect getBoundingBox()
 	{
 		assert(_node);
 		return _node->getBoundingBox();
 	}
 
-	const Size<float>& getSize()
+	const Size getSize()
 	{
 		assert(_node);
 		return _node->getSize();
 	}
 
-	void setPosition(const Point<float>& position)
+	void setSize(const Size& size)
+	{
+		assert(_node);
+		_node->setSize(size);
+	}
+
+	void setPosition(const Point& position)
 	{
 		assert(_node);
 		_node->setPosition(position);
 	}
 
-	const Point<float>& getPosition()
+	const Point getPosition()
 	{
 		assert(_node);
 		return _node->getPosition();
 	}
 
-	NodeWrapper getParent()
+	const Size getParentSize()
 	{
 		assert(_node);
-		return {_node->getParent()};
-	}
-
-	NodeWrapper getChild(const std::string& tag)
-	{
-		assert(_node);
-		return {_node->getChild(tag)};
+		return {_node->getParent()->getSize()};
 	}
 
 	bool isValid() const

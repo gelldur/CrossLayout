@@ -5,7 +5,6 @@
 #pragma once
 
 #include <crosslayout/NodeWrapper.h>
-#include <crosslayout/geometry/Point.h>
 
 namespace CrossLayout
 {
@@ -105,7 +104,7 @@ private:
 
 		Orientation inParent()
 		{
-			return Orientation(_whichNode, Rect{Point{0, 0}, _whichNode.getParent().getSize()});
+			return Orientation(_whichNode, Rect{Point{0, 0}, _whichNode.getParentSize()});
 		}
 
 		Orientation between(NodeWrapper<T> nodeA, NodeWrapper<T> nodeB)
@@ -151,7 +150,7 @@ private:
 			toPoint.y = fromPoint.y;//Don't change Y position
 
 			Composer::moveBy(_whichNode, toPoint - fromPoint);
-			_whichNode = {nullptr};//Make invalid
+			_whichNode = {};//Make invalid
 		}
 
 		void vertically(const float margin = 0)
@@ -162,7 +161,7 @@ private:
 			toPoint.y += margin;
 
 			Composer::moveBy(_whichNode, toPoint - fromPoint);
-			_whichNode = {nullptr};//Make invalid
+			_whichNode = {};//Make invalid
 		}
 
 	private:
@@ -261,7 +260,7 @@ private:
 		{
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = decltype(fromPoint)
-					{_whichNode.getParent().getSize().width
+					{_whichNode.getParentSize().width
 							, fromPoint.y};//Don't change Y position
 			toPoint.x += _whichEdge.x == 1 ? -margin : margin;
 
@@ -308,7 +307,7 @@ private:
 			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichEdge.x, _whichEdge.y);
 			auto toPoint = decltype(fromPoint)
 					{fromPoint.x //Don't change X position
-							, _whichNode.getParent().getSize().height};
+							, _whichNode.getParentSize().height};
 			toPoint.y += _whichEdge.y == 1 ? -margin : margin;
 
 			Composer::moveBy(_whichNode, toPoint - fromPoint);

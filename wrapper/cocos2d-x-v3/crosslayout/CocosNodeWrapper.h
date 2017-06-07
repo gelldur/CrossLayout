@@ -15,14 +15,12 @@ template<>
 class NodeWrapper<cocos2d::Node>
 {
 public:
+	using Rect = CrossLayout::Rect<float>;
+	using Size = CrossLayout::Size<float>;
+	using Point = CrossLayout::Point<float>;
 	using wrap_t = cocos2d::Node;
 
-	constexpr static NodeWrapper<cocos2d::Node> wrap(wrap_t* const node)
-	{
-		return {node};
-	}
-
-	constexpr NodeWrapper(wrap_t* node)
+	constexpr NodeWrapper(wrap_t* node = nullptr)
 			: _node(node)
 	{
 	}
@@ -38,24 +36,25 @@ public:
 		return *this;
 	}
 
-	const Rect<float>& getBoundingBox()
+	const Rect getBoundingBox()
 	{
 		assert(_node);
-		auto cocosBox = _node->getBoundingBox();
-		_box.point = {cocosBox.origin.x, cocosBox.origin.y};
-		_box.size = {cocosBox.size.width, cocosBox.size.height};
-
-		return _box;
+		return {_node->getBoundingBox()};
 	}
 
-	const Size<float>& getSize()
+	const Size getSize()
 	{
 		assert(_node);
-		_box.size = {_node->getContentSize().width, _node->getContentSize().height};
-		return _box.size;
+		return {_node->getContentSize()};//TODO is it a bug? Should be box size?
 	}
 
-	void setPosition(const Point<float>& position)
+	void setSize(const Size& size)
+	{
+		assert(_node);
+		_node->setContentSize({size.width, size.height});
+	}
+
+	void setPosition(const Point& position)
 	{
 		assert(_node);
 		auto anchor = cocos2d::Vec2{};
@@ -68,7 +67,7 @@ public:
 		_node->setPosition(position.x + anchor.x, position.y + anchor.y);
 	}
 
-	const Point<float>& getPosition()
+	const Point getPosition()
 	{
 		assert(_node);
 		auto cocosBox = _node->getBoundingBox();
@@ -77,16 +76,10 @@ public:
 		return _box.point;
 	}
 
-	NodeWrapper getParent()
+	const Size getParentSize()
 	{
 		assert(_node);
-		return {_node->getParent()};
-	}
-
-	NodeWrapper getChild(const std::string& tag)
-	{
-		assert(_node);
-		return {_node->getChildByName(tag)};
+		return {_node->getParent()->getContentSize()};
 	}
 
 	bool isValid() const
@@ -95,7 +88,6 @@ public:
 	}
 
 private:
-	Rect<float> _box;
 	wrap_t* _node = nullptr;
 };
 
