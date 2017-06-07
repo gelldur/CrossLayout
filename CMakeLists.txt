@@ -10,6 +10,8 @@ SET(CrossLayout_SRC
 		src/crosslayout/geometry/Point.cpp src/crosslayout/geometry/Point.h
 		src/crosslayout/geometry/Rect.cpp src/crosslayout/geometry/Rect.h
 		src/crosslayout/geometry/Size.cpp src/crosslayout/geometry/Size.h
+		src/crosslayout/layout/Linear.cpp src/crosslayout/layout/Linear.h
+		src/crosslayout/layout/Margin.h
 		src/crosslayout/NodeGroup.h
 		src/crosslayout/NodeWrapper.h
 		src/crosslayout/NodeWrapperPlain.h
