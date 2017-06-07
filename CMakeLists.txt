@@ -11,6 +11,7 @@ SET(CrossLayout_SRC
 		src/crosslayout/geometry/Rect.cpp src/crosslayout/geometry/Rect.h
 		src/crosslayout/geometry/Size.cpp src/crosslayout/geometry/Size.h
 		src/crosslayout/NodeWrapper.h
+		src/crosslayout/NodeWrapperPlain.h
 		src/crosslayout/Pixel.cpp src/crosslayout/Pixel.h
 		)
 
