@@ -29,6 +29,13 @@ public:
 	{
 	}
 
+	template<class From>
+	constexpr Rect(const From& from)
+			: point(from.point)
+			, size(from.size)
+	{
+	}
+
 	const T x() const
 	{
 		return point.x;
@@ -91,15 +98,22 @@ public:
 		return {minX, minY, maxX - minX, maxY - minY};
 	}
 
-	bool operator==(const Rect<T>& rhs) const
+	bool operator==(const Rect<T>& other) const
 	{
-		return point == rhs.point &&
-			   size == rhs.size;
+		return point == other.point &&
+			   size == other.size;
 	}
 
-	bool operator!=(const Rect<T>& rhs) const
+	bool operator!=(const Rect<T>& other) const
 	{
-		return !(rhs == *this);
+		return !(other == *this);
+	}
+
+	Rect& operator=(const Rect<T>& other)
+	{
+		point = other.point;
+		size = other.size;
+		return *this;
 	}
 };
 

@@ -25,6 +25,13 @@ public:
 	{
 	}
 
+	template<class From>
+	constexpr Point(const From& from)
+			: x(from.x)
+			, y(from.y)
+	{
+	}
+
 	constexpr Point(Point<T>&& other)
 			: x(other.x)
 			, y(other.y)
@@ -137,6 +144,13 @@ public:
 	Point<T> operator+(const Point<T>& right) const
 	{
 		return {x + right.x, y + right.y};
+	}
+
+	Point& operator+=(const Point& right)
+	{
+		x += right.x;
+		y += right.y;
+		return *this;
 	}
 
 	std::string toString() const;
