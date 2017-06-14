@@ -5,6 +5,7 @@
 
 #include <base_nodes/CCNode.h>
 
+#include <crosslayout/ComposerCocos.h>
 #include <crosslayout/layout/Linear.h>
 
 namespace CrossLayout
