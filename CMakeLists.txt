@@ -23,7 +23,7 @@ ADD_LIBRARY(CrossLayout STATIC ${CrossLayout_SRC})
 TARGET_COMPILE_OPTIONS(CrossLayout PRIVATE
 		-Wall -pedantic
 		-Wno-unused-private-field -Wnon-virtual-dtor
-		-Werror
+		#-Werror
 		)
 
 IF(TARGET gtest)
