@@ -41,18 +41,13 @@ class Composer
 	using Point = CrossLayout::Point<float>;
 
 	struct In;
-
 	struct Orientation;
-
 	struct WhereVertical;
-
 	struct WhereHorizontal;
-
 	struct MoveHorizontal;
-
 	struct MoveVertical;
-
 	struct Move;
+	struct AnchorMove;
 
 public:
 	using Wrap = NodeWrapper<T>;
@@ -80,6 +75,11 @@ public:
 	constexpr In center(NodeWrapper<T> node) const
 	{
 		return Composer::In(node);
+	}
+
+	constexpr AnchorMove grabAnchor(NodeWrapper<T> node, Point point) const
+	{
+		return Composer::AnchorMove(node, point);
 	}
 
 	constexpr Move move(NodeWrapper<T> node) const
@@ -364,6 +364,36 @@ private:
 
 		constexpr Move(const Composer<T>* composer, NodeWrapper<T> whichNode)
 				: _composer(composer)
+				, _whichNode(whichNode)
+		{
+		}
+	};
+
+	struct AnchorMove
+	{
+		friend class Composer;
+
+		void moveTo(NodeWrapper<T> node, Point anchor)
+		{
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichAnchor.x, _whichAnchor.y);
+			auto toPoint = node.getBoundingBox().getPoint(anchor.x, anchor.y);
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
+		}
+
+		void moveToParent(Point anchor)
+		{
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_whichAnchor.x, _whichAnchor.y);
+			const Rect parent{{}, _whichNode.getParentSize()};
+			auto toPoint = parent.getPoint(anchor.x, anchor.y);
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
+		}
+
+	private:
+		const Point _whichAnchor;
+		NodeWrapper<T> _whichNode;
+
+		constexpr AnchorMove(NodeWrapper<T> whichNode, Point whichAnchor)
+				: _whichAnchor(whichAnchor)
 				, _whichNode(whichNode)
 		{
 		}
