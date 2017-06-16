@@ -48,6 +48,8 @@ class Composer
 	struct MoveVertical;
 	struct Move;
 	struct AnchorMove;
+	struct AnchorMoveX;
+	struct AnchorMoveY;
 
 public:
 	using Wrap = NodeWrapper<T>;
@@ -80,6 +82,16 @@ public:
 	constexpr AnchorMove grabAnchor(NodeWrapper<T> node, Point point) const
 	{
 		return Composer::AnchorMove(node, point);
+	}
+
+	constexpr AnchorMoveX grabAnchorX(NodeWrapper<T> node, float anchor) const
+	{
+		return Composer::AnchorMoveX(node, anchor);
+	}
+
+	constexpr AnchorMoveY grabAnchorY(NodeWrapper<T> node, float anchor) const
+	{
+		return Composer::AnchorMoveY(node, anchor);
 	}
 
 	constexpr Move move(NodeWrapper<T> node) const
@@ -398,6 +410,71 @@ private:
 		{
 		}
 	};
+
+	struct AnchorMoveX
+	{
+		friend class Composer;
+
+		void moveTo(NodeWrapper<T> node, float anchor)
+		{
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_anchor, 0);
+			auto toPoint = node.getBoundingBox().getPoint(anchor, 0);
+			toPoint.y = fromPoint.y; //Don't move on Y
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
+		}
+
+		void moveToParent(float anchor)
+		{
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(_anchor, 0);
+			const Rect parent{{}, _whichNode.getParentSize()};
+			auto toPoint = parent.getPoint(anchor, 0);
+			toPoint.y = fromPoint.y; //Don't move on Y
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
+		}
+
+	private:
+		const float _anchor;
+		NodeWrapper<T> _whichNode;
+
+		constexpr AnchorMoveX(NodeWrapper<T> whichNode, float anchor)
+				: _anchor(anchor)
+				, _whichNode(whichNode)
+		{
+		}
+	};
+
+	struct AnchorMoveY
+	{
+		friend class Composer;
+
+		void moveTo(NodeWrapper<T> node, float anchor)
+		{
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(0, _anchor);
+			auto toPoint = node.getBoundingBox().getPoint(0, anchor);
+			toPoint.x = fromPoint.x; //Don't move on X
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
+		}
+
+		void moveToParent(float anchor)
+		{
+			auto fromPoint = _whichNode.getBoundingBox().getPoint(0, _anchor);
+			const Rect parent{{}, _whichNode.getParentSize()};
+			auto toPoint = parent.getPoint(0, anchor);
+			toPoint.x = fromPoint.x; //Don't move on X
+			Composer::moveBy(_whichNode, toPoint - fromPoint);
+		}
+
+	private:
+		const float _anchor;
+		NodeWrapper<T> _whichNode;
+
+		constexpr AnchorMoveY(NodeWrapper<T> whichNode, float anchor)
+				: _anchor(anchor)
+				, _whichNode(whichNode)
+		{
+		}
+	};
+
 };
 
 }
