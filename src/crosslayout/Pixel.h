@@ -18,9 +18,29 @@ public:
 	{
 	}
 
+	static constexpr Pixel shp(float value)
+	{
+		return {value, &CrossLayout::Pixel::convertShpToPixel};
+	}
+
+	static constexpr Pixel swp(float value)
+	{
+		return {value, &CrossLayout::Pixel::convertSwpToPixel};
+	}
+
 	operator int() const
 	{
 		return (*_defaultConvert)(_value);
+	}
+
+	operator float() const
+	{
+		return (*_defaultConvert)(_value);
+	}
+
+	Pixel operator-() const
+	{
+		return {-_value, _defaultConvert};
 	}
 
 	static const int convertDpToPixel(const float dp)
@@ -33,15 +53,21 @@ public:
 		return swp * _screenWidth / 100.F;
 	}
 
+	static const int convertShpToPixel(const float shp)
+	{
+		return shp * _screenHeight / 100.F;
+	}
+
 	static void setDeviceDPI(const int dpi);
-	static void setScreenWidth(const int width);
+	static void setScreenSize(const int width, const int height);
 
 private:
 	static int _screenDpi;
 	static int _screenWidth;
+	static int _screenHeight;
 
-	const float _value;
-	const Converter _defaultConvert;
+	float _value;
+	Converter _defaultConvert;
 };
 
 }
@@ -65,4 +91,14 @@ constexpr inline CrossLayout::Pixel operator "" _swp(const long double screenWid
 constexpr inline CrossLayout::Pixel operator "" _swp(const unsigned long long int screenWidthPercent)
 {
 	return CrossLayout::Pixel(static_cast<float>(screenWidthPercent), &CrossLayout::Pixel::convertSwpToPixel);
+}
+
+constexpr inline CrossLayout::Pixel operator "" _shp(const long double screenHeightPercent)
+{
+	return CrossLayout::Pixel(static_cast<float>(screenHeightPercent), &CrossLayout::Pixel::convertShpToPixel);
+}
+
+constexpr inline CrossLayout::Pixel operator "" _shp(const unsigned long long int screenHeightPercent)
+{
+	return CrossLayout::Pixel(static_cast<float>(screenHeightPercent), &CrossLayout::Pixel::convertShpToPixel);
 }
