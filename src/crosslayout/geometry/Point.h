@@ -159,6 +159,13 @@ public:
 		y /= scale;
 		return *this;
 	}
+
+	template<class C>
+	C convert() const
+	{
+		return C{x, y};
+	}
+
 	std::string toString() const;
 };
 
