@@ -153,6 +153,12 @@ public:
 		return *this;
 	}
 
+	Point& operator/=(const float& scale)
+	{
+		x /= scale;
+		y /= scale;
+		return *this;
+	}
 	std::string toString() const;
 };
 
