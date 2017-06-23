@@ -32,7 +32,7 @@ namespace CrossLayout
  *
  * composer.center(foo).in(bar);
  * composer.center(foo).in(bar).horizontally();
- *
+ * TODO composer can check parent and when they do not match try to convert to global space ?
  */
 template<class T>
 class Composer
