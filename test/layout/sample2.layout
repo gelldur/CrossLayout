@@ -1,0 +1,18 @@
+layout = {
+	name = "Sample Layout",
+	red = {
+		id = "red",
+		leftEdge = parent,
+		topEdge = parent
+	},
+	blue = {
+		id = "blue",
+		leftEdge = red,
+		topEdge = red, 10
+	},
+}
+
+
+-- LeftEdge(red):to(LeftEdge(parent))
+
+composer:moveLeftEdge("red"):toParentLeftEdge()
