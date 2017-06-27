@@ -55,18 +55,6 @@ public:
 		return {_node->getParent()->getContentSize()};
 	}
 
-	const Size getSize()
-	{
-		assert(_node);
-		return {_node->getContentSize()};//TODO is it a bug? Should be box size?
-	}
-
-	void setSize(const Size& size)
-	{
-		assert(_node);
-		_node->setContentSize({size.width, size.height});
-	}
-
 	void setPosition(const Point& position)
 	{
 		assert(_node);
@@ -82,7 +70,17 @@ public:
 
 	const Point getPosition()
 	{
-		return getBoundingBox().point;
+		//Position isn't the same as getBoundingBox().point
+		//position is more raw thing
+		const auto position = _node->getPosition();
+		if (_node->isIgnoreAnchorPointForPosition() == false)
+		{
+			auto anchor = _node->getAnchorPointInPoints();
+			anchor.x *= _node->getScaleX();
+			anchor.y *= _node->getScaleY();
+			return position - anchor;
+		}
+		return position;
 	}
 
 	bool isValid() const

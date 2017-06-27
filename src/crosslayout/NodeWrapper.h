@@ -40,22 +40,17 @@ public:
 		_node = node._node;
 	}
 
+	/**
+	 * Bounding box is box that will contain our whole content. Simply bounding box takes
+	 * into account things like: rotation, scale, scale by parent hierarchy other transformations
+	 *
+	 * Simply this is rect that we will see on screen
+	 * @return rect that will say how much space we take
+	 */
 	const Rect getBoundingBox()
 	{
 		assert(_node);
 		return _node->getBoundingBox();
-	}
-
-	const Size getSize()
-	{
-		assert(_node);
-		return _node->getSize();
-	}
-
-	void setSize(const Size& size)
-	{
-		assert(_node);
-		_node->setSize(size);
 	}
 
 	void setPosition(const Point& position)
