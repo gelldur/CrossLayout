@@ -99,6 +99,7 @@ public:
 		return Composer::Move(this, node);
 	}
 
+	//TODO make it more usable like: composer.moveBy(historyBackground, {});
 	static void moveBy(NodeWrapper<T>& node, Point moveBy)
 	{
 		node.setPosition(moveBy + node.getPosition());
