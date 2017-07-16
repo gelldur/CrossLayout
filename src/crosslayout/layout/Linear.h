@@ -94,7 +94,7 @@ public:
 	Size getSize();
 
 	void setOrientation(Orientation orientation);
-	void setGravity(Gravity gravity);
+	void setGravity(int gravity);
 
 	void setAvailableSpace(Size size);
 

@@ -16,7 +16,7 @@ void Linear::setOrientation(Linear::Orientation orientation)
 	_orientation = orientation;
 }
 
-void Linear::setGravity(Linear::Gravity gravity)
+void Linear::setGravity(int gravity)
 {
 	_gravity = gravity;
 }
