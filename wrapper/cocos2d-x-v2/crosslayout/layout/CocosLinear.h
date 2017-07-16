@@ -13,7 +13,6 @@ namespace CrossLayout
 namespace Layout
 {
 
-//template<class T>
 class CocosLinear
 {
 public:
@@ -79,6 +78,11 @@ public:
 	bool pleaseConsiderMeAsLayout()
 	{
 		return true;
+	}
+
+	void remove(cocos2d::CCNode* node)
+	{
+		//TODO implement
 	}
 
 private:
