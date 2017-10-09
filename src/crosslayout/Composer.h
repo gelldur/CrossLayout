@@ -104,7 +104,7 @@ public:
 		node.setPosition(moveBy + node.getPosition());
 	}
 
-	void moveBy(NodeWrapper<T> node, Point moveBy)
+	static void moveByOffset(NodeWrapper<T> node, Point moveBy)
 	{
 		node.setPosition(moveBy + node.getPosition());
 	}
