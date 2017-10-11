@@ -109,7 +109,7 @@ void Linear::onLayoutHorizontal()
 	}
 	else if ((_gravity & Gravity::right) != 0)
 	{
-		offset = (_availableSize.width - _itemsTotalSize.width);
+		offset = (_availableSize.width - _itemsTotalSize.width) + _margins.front().left;
 	}
 
 	composer.leftEdge(_items.front()).moveTo().parentLeftEdge(offset);
@@ -159,7 +159,7 @@ void Linear::onLayoutVertical()
 	}
 	else if ((_gravity & Gravity::bottom) != 0)
 	{
-		offset = (_availableSize.height - _itemsTotalSize.height);
+		offset = (_availableSize.height - _itemsTotalSize.height) + _margins.front().top;
 	}
 
 	composer.topEdge(_items.front()).moveTo().parentTopEdge(offset);
