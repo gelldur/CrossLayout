@@ -33,6 +33,12 @@ public:
 		height += right.height;
 		return *this;
 	}
+
+	template<typename C>
+	explicit operator C() const
+	{
+		return C{width, height};
+	}
 };
 
 template<class T>
