@@ -42,6 +42,11 @@ public:
 	{
 	}
 
+	CocosLinear copy() const
+	{
+		return CocosLinear{_parent, _size, linear.getOrientation(), linear.getGravity()};
+	}
+
 	void add(cocos2d::CCNode* child, Margin margin = {})
 	{
 		_parent->addChild(child);
