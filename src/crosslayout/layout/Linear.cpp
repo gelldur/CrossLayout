@@ -212,5 +212,15 @@ Linear::Size Linear::getSize()
 	return _availableSize;
 }
 
+Linear::Orientation Linear::getOrientation() const
+{
+	return _orientation;
+}
+
+int Linear::getGravity() const
+{
+	return _gravity;
+}
+
 }
 }

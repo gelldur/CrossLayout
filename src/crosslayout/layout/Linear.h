@@ -93,7 +93,10 @@ public:
 
 	Size getSize();
 
+	Orientation getOrientation() const;
 	void setOrientation(Orientation orientation);
+
+	int getGravity() const;
 	void setGravity(int gravity);
 
 	void setAvailableSpace(Size size);
