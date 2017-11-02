@@ -6,6 +6,7 @@
 
 #include "Point.h"
 #include "Size.h"
+#include <algorithm>
 
 namespace CrossLayout
 {

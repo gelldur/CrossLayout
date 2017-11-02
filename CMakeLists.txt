@@ -22,10 +22,16 @@ SET(CrossLayout_SRC
 ADD_LIBRARY(CrossLayout ${CrossLayout_SRC})
 
 TARGET_COMPILE_OPTIONS(CrossLayout PRIVATE
-		-Wall -pedantic
+	-Wall 
+)
+
+if(NOT WIN32)
+	TARGET_COMPILE_OPTIONS(CrossLayout PRIVATE
+		-pedantic
 		-Wno-unused-private-field -Wnon-virtual-dtor
 		#-Werror
-		)
+	)
+endif()
 
 IF(TARGET gtest)
 	ADD_SUBDIRECTORY(test/)
