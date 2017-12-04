@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <algorithm>
+
 #include "Point.h"
 #include "Size.h"
 
