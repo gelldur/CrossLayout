@@ -67,12 +67,30 @@ public:
 	template<class T>
 	void addItem(T item, Margin margin = {})
 	{
+		_itemsAddresses.emplace_back(item.getAddress());
 		_items.emplace_back(item.getBoundingBox());
 		_updatePositions.emplace_back([item](const Point& position) mutable
 									  {
 										  item.setPosition(position);
 									  });
 		_margins.emplace_back(margin);
+	}
+
+	template<class T>
+	void removeItem(T item, Margin margin = {})
+	{
+		auto foundItemIterator = std::find(std::begin(_itemsAddresses), std::end(_itemsAddresses), item.getAddress());
+
+		if(foundItemIterator == std::cend(_itemsAddresses)) {
+			return;
+		}
+
+		const auto foundIndex = std::distance(std::begin(_itemsAddresses), foundItemIterator);
+
+		_itemsAddresses.erase(std::begin(_itemsAddresses) + foundIndex);
+		_items.erase(std::begin(_items) + foundIndex);
+		_updatePositions.erase(std::begin(_updatePositions) + foundIndex);
+		_margins.erase(std::begin(_margins) + foundIndex);
 	}
 
 	template<class T>
@@ -118,6 +136,7 @@ private:
 	Size _availableSize;
 	Size _itemsTotalSize;
 
+	std::vector<void*> _itemsAddresses;
 	std::vector<NodeWrapper<Rect>> _items;
 	std::vector<Margin> _margins;
 

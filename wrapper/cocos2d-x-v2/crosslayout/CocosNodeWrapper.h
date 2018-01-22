@@ -88,6 +88,11 @@ public:
 		return _node != nullptr;
 	}
 
+	void* getAddress() const
+	{
+		return _node;
+	}
+
 private:
 	wrap_t* _node = nullptr;
 };
