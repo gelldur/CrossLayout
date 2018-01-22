@@ -25,6 +25,8 @@ public:
 
 	Linear linear;
 
+	operator cocos2d::CCNode*() const { return _parent; }
+
 	CocosLinear(cocos2d::CCNode* parent
 				, Linear::Orientation orientation = Linear::Orientation::horizontal
 				, int gravity = (Linear::Gravity::left | Linear::Gravity::top))
@@ -51,6 +53,12 @@ public:
 	{
 		_parent->addChild(child);
 		linear.addItem<Wrap>(child, margin);
+	}
+
+	void remove(cocos2d::CCNode* node)
+	{
+		_parent->removeChild(node);
+		linear.removeItem<Wrap>(node);
 	}
 
 	template<class N>
@@ -83,11 +91,6 @@ public:
 	bool pleaseConsiderMeAsLayout()
 	{
 		return true;
-	}
-
-	void remove(cocos2d::CCNode* node)
-	{
-		//TODO implement
 	}
 
 private:
