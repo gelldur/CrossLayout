@@ -141,7 +141,7 @@ private:
 	private:
 		NodeWrapper<T> _whichNode;
 
-		explicit constexpr In(NodeWrapper<T> whichNode)
+		explicit constexpr In(const NodeWrapper<T>& whichNode)
 				: _whichNode(whichNode)
 		{
 		}
@@ -185,7 +185,7 @@ private:
 		Rect _whereBox;
 		NodeWrapper<T> _whichNode;
 
-		constexpr Orientation(NodeWrapper<T> whichNode, Rect whereBox)
+		constexpr Orientation(const NodeWrapper<T>& whichNode, const Rect& whereBox)
 				: _whereBox(whereBox)
 				, _whichNode(whichNode)
 		{
@@ -213,7 +213,7 @@ private:
 		const Point _whichEdge;
 		NodeWrapper<T> _whichNode;
 
-		constexpr MoveHorizontal(NodeWrapper<T> whichNode, Point whichEdge)
+		constexpr MoveHorizontal(const NodeWrapper<T>& whichNode, const Point& whichEdge)
 				: _whichEdge(whichEdge)
 				, _whichNode(whichNode)
 		{
@@ -233,7 +233,7 @@ private:
 		const Point _whichEdge;
 		NodeWrapper<T> _whichNode;
 
-		constexpr MoveVertical(NodeWrapper<T> whichNode, Point whichEdge)
+		constexpr MoveVertical(const NodeWrapper<T>& whichNode, const Point& whichEdge)
 				: _whichEdge(whichEdge)
 				, _whichNode(whichNode)
 		{
@@ -288,7 +288,7 @@ private:
 		const Point _whichEdge;
 		NodeWrapper<T> _whichNode;
 
-		constexpr WhereHorizontal(NodeWrapper<T> whichNode, Point whichEdge)
+		constexpr WhereHorizontal(const NodeWrapper<T>& whichNode, const Point& whichEdge)
 				: _whichEdge(whichEdge)
 				, _whichNode(whichNode)
 		{
@@ -343,7 +343,7 @@ private:
 		const Point _whichEdge;
 		NodeWrapper<T> _whichNode;
 
-		constexpr WhereVertical(NodeWrapper<T> whichNode, Point whichEdge)
+		constexpr WhereVertical(const NodeWrapper<T>& whichNode, const Point& whichEdge)
 				: _whichEdge(whichEdge)
 				, _whichNode(whichNode)
 		{
@@ -379,7 +379,7 @@ private:
 		const Composer<T>* const _composer;
 		NodeWrapper<T> _whichNode;
 
-		constexpr Move(const Composer<T>* composer, NodeWrapper<T> whichNode)
+		constexpr Move(const Composer<T>* composer, const NodeWrapper<T>& whichNode)
 				: _composer(composer)
 				, _whichNode(whichNode)
 		{
@@ -409,7 +409,7 @@ private:
 		const Point _whichAnchor;
 		NodeWrapper<T> _whichNode;
 
-		constexpr AnchorMove(NodeWrapper<T> whichNode, Point whichAnchor)
+		constexpr AnchorMove(const NodeWrapper<T>& whichNode, const Point& whichAnchor)
 				: _whichAnchor(whichAnchor)
 				, _whichNode(whichNode)
 		{
@@ -473,7 +473,7 @@ private:
 		const float _anchor;
 		NodeWrapper<T> _whichNode;
 
-		constexpr AnchorMoveY(NodeWrapper<T> whichNode, float anchor)
+		constexpr AnchorMoveY(const NodeWrapper<T>& whichNode, float anchor)
 				: _anchor(anchor)
 				, _whichNode(whichNode)
 		{

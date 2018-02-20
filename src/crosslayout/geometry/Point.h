@@ -19,7 +19,13 @@ public:
 	T x;
 	T y;
 
-	constexpr Point(T x = 0, T y = 0)
+	constexpr Point()
+		: x(0),
+		  y(0)
+	{
+	}
+
+	constexpr Point(T x, T y)
 			: x(x)
 			, y(y)
 	{

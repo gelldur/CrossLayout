@@ -21,11 +21,11 @@ SET(CrossLayout_SRC
 # BUILD_SHARED_LIBS can controll build type!
 ADD_LIBRARY(CrossLayout ${CrossLayout_SRC})
 
-TARGET_COMPILE_OPTIONS(CrossLayout PRIVATE
-		-Wall -pedantic
-		-Wnon-virtual-dtor
-		#-Werror
-		)
+# TARGET_COMPILE_OPTIONS(CrossLayout PRIVATE
+# 		-Wall -pedantic
+# 		-Wnon-virtual-dtor
+# 		#-Werror
+# 		)
 
 IF(TARGET gtest)
 	ADD_SUBDIRECTORY(test/)

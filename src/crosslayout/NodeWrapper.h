@@ -35,9 +35,15 @@ public:
 	{
 	}
 
+	constexpr NodeWrapper(NodeWrapper&& node)
+		: _node(node._node)
+	{
+	}
+
 	NodeWrapper& operator=(const NodeWrapper& node)
 	{
 		_node = node._node;
+		return *this;
 	}
 
 	/**
